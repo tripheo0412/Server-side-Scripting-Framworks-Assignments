@@ -79,6 +79,7 @@ router.post("/", upload.single("pic"), (req, res) => {
   })
   //console.log(newSpy)
   Spy.find((err, res) => {
+    console.log("finding")
     console.log(res)
   })
   newSpy.save()
