@@ -3,13 +3,14 @@ const router = express.Router()
 const bodyParser = require("body-parser")
 const multer = require("multer")
 const path = require("path")
-const Spy = require("../../database/database.js").Spy
+const Spy = require("../../../database/database.js").Spy
 const fs = require("fs")
 const moment = require("moment")
 const ObjectID = require("mongodb").ObjectID
 const sharp = require("sharp")
 const exif = require("exif")
-const upload = multer({ dest: "./uploads" })
+const upload = multer({ dest: "../uploads" })
+const homePage = require("./viewForm.js")
 // const spySchema = database.Schema({
 //   id: String,
 //   time: Date,
@@ -30,12 +31,12 @@ router.get("/addform", (req, res) => {
   res.sendFile(path.join(__dirname + "/addForm.html"))
 })
 
-router.get("/", (req, res) => {
-  Spy.find({ fname: "tri" }, (err, res) => {
-    console.log(res)
-  })
-  res.send("check console")
-})
+// router.get("/", (req, res) => {
+//   Spy.find({ fname: "tri" }, (err, res) => {
+//     console.log(res)
+//   })
+//   res.send("check console")
+// })
 
 // for parsing application/json
 router.use(bodyParser.json())
@@ -47,12 +48,12 @@ router.use(bodyParser.urlencoded({ extended: true }))
 // for parsing multipart/form-data
 router.post("/", upload.single("pic"), (req, res) => {
   const tempPath = req.file.path
-  const targetPath = path.join(`./uploads/${req.file.originalname}.jpg`)
+  const targetPath = path.join(`./uploads/${req.file.originalname}`)
   fs.rename(tempPath, targetPath, err => {
     console.log(err)
   })
   try {
-    new exif({ image: `./uploads/${req.file.originalname}.jpg` }, function(
+    new exif({ image: `./uploads/${req.file.originalname}` }, function(
       error,
       exifData
     ) {
@@ -83,6 +84,7 @@ router.post("/", upload.single("pic"), (req, res) => {
     console.log(res)
   })
   newSpy.save()
+  homePage
   res.sendFile(path.join(__dirname + "/viewForm.html"))
 })
 
