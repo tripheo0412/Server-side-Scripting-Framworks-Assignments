@@ -53,7 +53,11 @@ exports.spy_delete_record = data => {
     })
 }
 
-exports.spy_update_record = data => {
-
+exports.spy_update_record = (id, newObj) => {
+  spy.findOneAndUpdate(id, newObj, {new:true}).then(res => {
+    return res
+  }).catch(err => {
+    return err
+  })
 }
 

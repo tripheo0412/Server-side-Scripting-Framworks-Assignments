@@ -1,5 +1,5 @@
 const express = require("express")
-
+const urlencodedParser = require('body-parser')
 const path = require("path")
 const multer = require("multer")
 const router = express.Router()
@@ -77,4 +77,9 @@ router.delete("/posts/:id", (req, res) => {
   })
 })
 
+router.patch("/posts/:imageId", urlencodedParser,(req,res) => {
+  spyController.spy_update_record().then(res => {
+    res.send(res)
+  })
+})
 module.exports = router
