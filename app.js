@@ -3,16 +3,16 @@ const express = require("express")
 const DB = require("./modules/database")
 const spyRouter = require("./routers/spyRouter")
 const app = express()
-app.enable('trust proxy')
-app.use ((req, res, next) => {
-  if (req.secure) {
-    // request was via https, so do no special handling
-    next();
-  } else {
-    // request was via http, so redirect to https
-    res.redirect('https://' + req.headers.host + req.url);
-  }
-})
+// app.enable('trust proxy')
+// app.use ((req, res, next) => {
+//   if (req.secure) {
+//     // request was via https, so do no special handling
+//     next();
+//   } else {
+//     // request was via http, so redirect to https
+//     res.redirect('https://' + req.headers.host + req.url);
+//   }
+// })
 DB.connect(
   `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${
     process.env.DB_HOST

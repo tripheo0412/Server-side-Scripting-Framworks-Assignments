@@ -8,7 +8,7 @@ document.querySelector("#reset-button").addEventListener("click", () => {
   update(originalData)
 })
 
-const createCard = (image, title, texts) => {
+const createCard = (image, title, texts, id) => {
   let text = ""
   for (let t of texts) {
     text += `<p class="card-text">${t}</p>`
@@ -19,8 +19,9 @@ const createCard = (image, title, texts) => {
                 <h3 class="card-title">${title}</h3>
                 ${text}                
             </div>
-            <div class="card-footer">
+            <div class="card-footer" id="${id}">
                 <p><button class="btn btn-primary">View</button></p>
+                <p><button onclick="removeCard" id="del-btn" class="btn btn-primary">Delete</button></p>
             </div>`
 }
 
@@ -62,7 +63,10 @@ const removeDuplicates = (myArr, prop) => {
     return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos
   })
 }
-
+const removeCard = (element) => {
+  var parent = element.parentNode
+  alert(parent.id)
+}
 const update = items => {
   categoryButtons(items)
   document.querySelector(".card-deck").innerHTML = ""
@@ -74,7 +78,7 @@ const update = items => {
     article.innerHTML = createCard(item.thumbnail, item.title, [
       "<small>" + time.format("dddd, MMMM Do YYYY, HH:mm") + "</small>",
       item.details
-    ])
+    ],item._id)
     article.addEventListener("click", () => {
       document.querySelector(".modal-body img").src = item.image
       document.querySelector(".modal-title").innerHTML = item.title

@@ -1,4 +1,5 @@
 const express = require("express")
+
 const path = require("path")
 const multer = require("multer")
 const router = express.Router()
@@ -66,6 +67,12 @@ router.get("/sort", (req, res) => {
 
 router.get("/posts", (req, res) => {
   spyController.spy_list_get().then(result => {
+    res.send(result)
+  })
+})
+
+router.delete("/posts/:id", (req, res) => {
+  spyController.spy_delete_record(req.params.id).then(result => {
     res.send(result)
   })
 })
